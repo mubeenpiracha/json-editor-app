@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Form Editor</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>JSON Form Editor</h1>
+        <div class="controls">
+            <div class="file-loader">
+                <label for="file-input">Load JSON from your computer:</label>
+                <input type="file" id="file-input" accept=".json">
+            </div>
+            <div class="global-actions">
+                <button id="save-btn">Save to File</button>
+                <button id="copy-btn">Copy to Clipboard</button>
+            </div>
+        </div>
+        <div id="json-editor">
+            <p class="placeholder">Select a JSON file to begin editing.</p>
+        </div>
+    </div>
+
+    <!-- Modal for Adding Data -->
+    <div id="add-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-box">
+            <div id="modal-header" class="modal-header">Add New Item</div>
+            <div id="modal-form-content"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
