@@ -52,9 +52,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const schema = getObjectSchema(data);
         if (schema && schema.length > 3) {
             if (Array.isArray(data)) {
-                parentElement.appendChild(renderArrayAsTable(data, schema, null));
+                parentElement.appendChild(renderArrayAsTable(data, schema, null, data));
             } else {
-                parentElement.appendChild(renderArrayAsTable(Object.values(data), schema, Object.keys(data)));
+                parentElement.appendChild(renderArrayAsTable(Object.values(data), schema, Object.keys(data), data));
             }
             return;
         }
@@ -85,7 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    const renderArrayAsTable = (dataArray, schema, keys) => {
+    const renderArrayAsTable = (dataArray, schema, keys, parentObject) => {
         const table = document.createElement('table');
         table.className = 'horizontal-table';
         const thead = table.createTHead().insertRow();
@@ -110,8 +110,14 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             const actionsCell = row.insertCell();
             actionsCell.appendChild(createButton('Delete', 'delete-btn', () => {
-                // Always delete from the dataArray at the specific index
-                deleteProperty(dataArray, index);
+                if (keys && parentObject) {
+                    // For objects displayed as tables, delete the property from the parent object
+                    const keyToDelete = keys[index];
+                    deleteProperty(parentObject, keyToDelete);
+                } else {
+                    // For arrays, delete the item at the specific index
+                    deleteProperty(dataArray, index);
+                }
             }));
         });
         return table;
