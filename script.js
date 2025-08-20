@@ -51,7 +51,11 @@ document.addEventListener('DOMContentLoaded', () => {
         parentElement.innerHTML = '';
         const schema = getObjectSchema(data);
         if (schema && schema.length > 3) {
-            parentElement.appendChild(renderArrayAsTable(Object.values(data), schema, Object.keys(data)));
+            if (Array.isArray(data)) {
+                parentElement.appendChild(renderArrayAsTable(data, schema, null));
+            } else {
+                parentElement.appendChild(renderArrayAsTable(Object.values(data), schema, Object.keys(data)));
+            }
             return;
         }
 
@@ -106,8 +110,8 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             const actionsCell = row.insertCell();
             actionsCell.appendChild(createButton('Delete', 'delete-btn', () => {
-                const originalKey = keys ? keys[index] : index;
-                deleteProperty(keys ? dataArray[0] : dataArray, originalKey);
+                // Always delete from the dataArray at the specific index
+                deleteProperty(dataArray, index);
             }));
         });
         return table;
